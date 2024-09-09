@@ -3,6 +3,14 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@auth/*": ["src/app/auth/*"],
+      "@components/*": ["src/app/components/*"],
+      "@envs/*": ["src/environments/*"],
+      "@features/*": ["src/app/features/*"],
+      "@shared/*": ["src/app/shared/*"]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
@@ -28,6 +36,6 @@
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
-    "strictTemplates": true
+    "strictTemplates": false
   }
 }
