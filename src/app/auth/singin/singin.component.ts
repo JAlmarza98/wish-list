@@ -5,6 +5,7 @@ import { AuthService, Credential } from '@auth/auth.service';
 import { ButtonProviderComponent } from '@auth/components';
 import { MATERIAL_MODULES } from '@shared/material.module';
 import { SnackbarService } from '@shared/snackbar/snackbar.service';
+import { ListService } from 'src/app/services/list.service';
 
 interface RegisterForm {
   email: FormControl<string>;
@@ -31,6 +32,7 @@ export class SinginComponent {
     private fb: FormBuilder,
     private auth: AuthService,
     private snackBar: SnackbarService,
+    private list: ListService,
     private _router: Router
   ) {
     this.registerForm = this.fb.group({

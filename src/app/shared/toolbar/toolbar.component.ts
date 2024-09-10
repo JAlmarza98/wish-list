@@ -9,9 +9,6 @@ import { MATERIAL_MODULES } from '@shared/material.module';
   imports: [MATERIAL_MODULES],
   template: `
     <mat-toolbar>
-      <!-- <button mat-icon-button aria-label="Example icon-button with menu icon">
-        <mat-icon>menu</mat-icon>
-      </button> -->
       <span>Wish list</span>
       <span class="spacer"></span>
       <button mat-icon-button aria-label="Cerrar sesión"  matTooltip="Cerrar sesión" (click)="logOut()">

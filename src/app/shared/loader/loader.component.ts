@@ -7,9 +7,11 @@ import { MATERIAL_MODULES } from '@shared/material.module';
   standalone: true,
   imports: [MATERIAL_MODULES],
   template: `
-    <div *ngIf="isLoading" class="loaderMask">
-      <mat-spinner class="spinner" mode="indeterminate" color="primary"></mat-spinner>
-    </div>
+    @if (isLoading) {
+      <div class="loaderMask">
+        <mat-spinner class="spinner" mode="indeterminate" color="primary"></mat-spinner>
+      </div>
+    }
   `,
   styles: [`
     .loaderMask { position: fixed; display: block; width: 100%; height: 100%; top: 0; left: 0; z-index: 99999; }

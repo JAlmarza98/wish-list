@@ -1,0 +1,41 @@
+<div class="container">
+  @if(wishList !== undefined){
+  <div class="table-actions">
+    <button mat-raised-button (click)="openInsertDialog()">
+      <mat-icon>add</mat-icon> Añadir a la lista
+    </button>
+  </div>
+  }
+
+  <div class="table">
+    @if(wishList === undefined){
+    <div class="no-list">
+      <span>Parece que todavia no tienes una lista</span>
+      <button mat-flat-button (click)="createYourList()">
+        Crear tu lista
+      </button>
+    </div>
+    } @else {
+    <table mat-table [dataSource]="wishList" class="mat-elevation-z8">
+
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Artículo</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Descripción</th>
+        <td mat-cell *matCellDef="let element">{{ element.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="url">
+        <th mat-header-cell *matHeaderCellDef>Link</th>
+        <td mat-cell *matCellDef="let element">{{ element.url }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    }
+  </div>
+</div>

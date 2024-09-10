@@ -1,3 +1,12 @@
-.example-spacer {
-  flex: 1 1 auto;
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 20px;
+  padding: 25px;
+}
+
+mat-card-content {
+  padding-top: 16px;
+  max-height: 450px;
 }
