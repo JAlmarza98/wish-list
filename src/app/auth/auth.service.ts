@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Auth, AuthProvider, authState, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, UserCredential } from '@angular/fire/auth';
+import { Auth, AuthProvider, authState, createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, UserCredential } from '@angular/fire/auth';
 
 export interface Credential {
   email: string;
@@ -10,10 +10,22 @@ export interface Credential {
   providedIn: 'root'
 })
 export class AuthService {
-
+  UserData: any;
   private auth: Auth = inject(Auth);
-
   readonly authState$ = authState(this.auth);
+
+  constructor() {
+    onAuthStateChanged(this.auth, (user: any) => {
+      if (user) {
+        this.UserData = user;
+        localStorage.setItem('user', JSON.stringify(this.UserData));
+        JSON.parse(localStorage.getItem('user')!);
+      } else {
+        localStorage.setItem('user', 'null');
+        JSON.parse(localStorage.getItem('user')!);
+      }
+    });
+  }
 
   signUpWithEmailAndPassword(credential: Credential): Promise<UserCredential> {
     return createUserWithEmailAndPassword(
