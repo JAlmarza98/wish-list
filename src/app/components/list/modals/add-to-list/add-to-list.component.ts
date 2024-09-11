@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } 
 import { MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle, } from '@angular/material/dialog';
 import { MATERIAL_MODULES } from '@shared/material.module';
 
-interface AddToListForm {
+export interface AddToListForm {
   title: FormControl<string>;
   description: FormControl<string>;
   url: FormControl<string>;
@@ -14,7 +14,9 @@ interface AddToListForm {
   standalone: true,
   imports: [MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose, MATERIAL_MODULES, ReactiveFormsModule],
   templateUrl: './add-to-list.component.html',
-  styleUrl: './add-to-list.component.css'
+  styles: [`
+    mat-form-field {width: 100%;}
+  `]
 })
 export class AddToListComponent implements OnInit {
 

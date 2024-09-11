@@ -8,7 +8,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatSortModule } from '@angular/material/sort';
 
 export const MATERIAL_MODULES = [
   MatButtonModule,
@@ -21,5 +24,8 @@ export const MATERIAL_MODULES = [
   MatTableModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatDialogModule
+  MatDialogModule,
+  MatPaginatorModule,
+  MatMenuModule,
+  MatSortModule
 ]

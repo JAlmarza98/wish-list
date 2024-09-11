@@ -9,16 +9,17 @@
   justify-content: flex-end;
 }
 
+.no-list-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .no-list {
   height: 250px;
   display: flex;
   flex-direction: column;
   width: 300px;
   gap: 15px;
-  justify-content: center;
-}
-
-.table {
-  display: flex;
   justify-content: center;
 }
