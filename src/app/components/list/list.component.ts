@@ -31,6 +31,7 @@ export interface List {
 })
 export class ListComponent implements OnInit {
   wishList: Wish[] = [];
+  wishListExist:boolean = false;
   listID!: string;
   loadData = false;
   reloadTable= false;
@@ -47,16 +48,25 @@ export class ListComponent implements OnInit {
 
   ngOnInit(): void {
     this._service.getMyList().subscribe((response: List[]) => {
-      this.wishList = response[0].list;
-      this.listID = response[0].id;
-      this._loader.HideLoader();
-      this.loadData = true;
-      this.reloadTable = true;
+      if(response.length !== 0){
+        this.wishListExist = true;
+        this.wishList = response[0].list;
+        this.listID = response[0].id;
+        this.loadData = true;
+        this.reloadTable = true;
+        this._loader.HideLoader();
+      } else {
+        this.wishListExist = false;
+        this.loadData = true;
+        this._loader.HideLoader();
+      }
     }, (err: any) => {
+      this.wishListExist = true;
       this.wishList = [];
       this.loadData = true;
-      this._snackbar.showSnackBar('No se ha podido recuperar datos', 'error');
       this._loader.HideLoader();
+      this._snackbar.showSnackBar('No se ha podido recuperar datos', 'error');
+      console.log(err);
     });
   }
 
