@@ -1,0 +1,43 @@
+.no-groups-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.no-groups {
+  height: 250px;
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  gap: 15px;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.groups-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.groups-container mat-card {
+  min-width: 160px;
+  padding: 15px;
+  cursor: pointer;
+}
+
+.groups-container mat-card mat-card-subtitle {
+  font-weight: 200;
+  text-align: end;
+}

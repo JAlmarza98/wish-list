@@ -1,1 +1,28 @@
-<p>groups works!</p>
+<div class="container">
+  @if (loadReady && groupsList.length === 0) {
+  <div class="no-groups-container">
+    <div class="no-groups">
+      <span>Parece que no estas en ningun grupo</span>
+      <button mat-flat-button (click)="createNewGroup()">
+        Crear tu primer grupo
+      </button>
+    </div>
+  </div>
+  }
+
+  @if (loadReady && groupsList.length !== 0) {
+    <div class="table-actions">
+      <button mat-raised-button (click)="createNewGroup()">
+        <mat-icon>add</mat-icon> Crear grupo
+      </button>
+    </div>
+    <div class="groups-container">
+      @for (item of groupsList; track item.id) {
+        <mat-card matRipple>
+          <mat-card-title>{{ item.name }}</mat-card-title>
+          <mat-card-subtitle>{{ item.members.length}} miembros</mat-card-subtitle>
+        </mat-card>
+      }
+    </div>
+  }
+</div>
