@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
+import { MatRippleModule } from '@angular/material/core';
 
 export const MATERIAL_MODULES = [
   MatButtonModule,
@@ -27,5 +28,6 @@ export const MATERIAL_MODULES = [
   MatDialogModule,
   MatPaginatorModule,
   MatMenuModule,
-  MatSortModule
+  MatSortModule,
+  MatRippleModule
 ]
