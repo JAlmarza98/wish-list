@@ -18,6 +18,7 @@ export interface Wish {
 
 export interface List {
   uid: string;
+  user?: string
   id: string;
   list: Wish[];
 }

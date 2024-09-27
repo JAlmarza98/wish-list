@@ -19,9 +19,7 @@ export class ListService {
 
   getMyList(): Observable<List[]> {
     const uid = this.auth.UserData.uid;
-    return collectionData(query(this.listCollection, where('uid', '==', uid)), {
-      idField: 'id',
-    }) as Observable<List[]>;
+    return collectionData(query(this.listCollection, where('uid', '==', uid)), ) as Observable<List[]>;
   }
 
   createList() {
@@ -38,5 +36,9 @@ export class ListService {
       `user-lists/${listId}`
     );
     return updateDoc(serviceDocumentReference, { list: list });
+  }
+
+  getGroupList(members: string[]) {
+    return collectionData(query(this.listCollection, where('uid', 'in', members)), ) as Observable<List[]>;
   }
 }

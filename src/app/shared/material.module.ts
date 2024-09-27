@@ -13,6 +13,8 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRippleModule } from '@angular/material/core';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export const MATERIAL_MODULES = [
   MatButtonModule,
@@ -29,5 +31,7 @@ export const MATERIAL_MODULES = [
   MatPaginatorModule,
   MatMenuModule,
   MatSortModule,
-  MatRippleModule
+  MatRippleModule,
+  MatTabsModule,
+  ClipboardModule
 ]
