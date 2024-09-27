@@ -5,7 +5,7 @@
 }
 
 .no-groups {
-  height: 250px;
+  min-height: 250px;
   display: flex;
   flex-direction: column;
   width: 350px;
@@ -40,4 +40,8 @@
 .groups-container mat-card mat-card-subtitle {
   font-weight: 200;
   text-align: end;
+}
+
+mat-form-field {
+  width: 100%;
 }

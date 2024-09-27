@@ -1,0 +1,50 @@
+<app-toolbar></app-toolbar>
+<div class="container">
+  @if(error) {
+    <mat-card class="no-member">
+      <mat-card-content>
+        <p>No eres miembro de este grupo</p>
+        <p>Unicamente puedes ver el contenido de grupos de los que eres miembro</p>
+        <button mat-flat-button routerLink="/">
+          Regresa al menu principal
+        </button>
+      </mat-card-content>
+    </mat-card>
+  }
+  @if (loadReady) {
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{ groupInfo.name }}</mat-card-title>
+      <button mat-icon-button aria-label="Invitar"  matTooltip="Invitar" (click)="createInvitationLink()">
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      @if (groupList.length === 0) {
+        <div class="group-alone">
+          <p>Estas solo en este grupo, invita a alguien</p>
+          <button mat-flat-button (click)="createInvitationLink()">
+            Invita a alguien al grupo
+          </button>
+        </div>
+      }
+      @else{
+        <mat-tab-group>
+          @for (list of groupList; track $index) {
+          <mat-tab [label]="list.user">
+            @if(reloadTable){
+            <app-table
+              [data]="list.list"
+              ></app-table>
+              <!-- (tableActionEvent)="tableAction($event)" -->
+            }
+          </mat-tab>
+          }
+        </mat-tab-group>
+      }
+    </mat-card-content>
+  </mat-card>
+  }
+</div>
+<app-loader></app-loader>
+<app-footer></app-footer>

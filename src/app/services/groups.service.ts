@@ -19,13 +19,15 @@ export class GroupsService {
 
   getMyGroups(): Observable<Group[]> {
     const uid = this.auth.UserData.uid;
-    return collectionData(query(this.listCollection, where('members','array-contains', uid)), {
-      idField: 'id',
-    }) as Observable<Group[]>;
+    return collectionData(query(this.listCollection, where('members','array-contains', uid))) as Observable<Group[]>;
   }
 
   createGroup(group:Group) {
     return addDoc(this.listCollection, group);
+  }
+
+  getGroupInfo(id: string) {
+    return collectionData(query(this.listCollection, where('id','==', id))) as Observable<Group[]>;
   }
 
 }

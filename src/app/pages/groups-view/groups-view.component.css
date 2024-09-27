@@ -1,0 +1,42 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 20px;
+  padding: 25px;
+}
+
+.no-member {
+  width: 350px;
+  margin: 0 auto;
+}
+
+.no-member .mat-mdc-card-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: center;
+}
+
+mat-card {
+  padding: 15px;
+}
+
+.mat-mdc-card-header {
+  display: flex;
+  padding: 16px 16px 0;
+  justify-content: space-between;
+  align-items: center;
+}
+
+:host ::ng-deep .mat-mdc-tab-body-wrapper {
+  min-height: 350px;
+}
+
+.group-alone {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+}
