@@ -13,7 +13,10 @@ import { List } from '@components/list/list.component';
 import { TableComponent } from '@shared/table/table.component';
 import { takeUntil, switchMap, Subject, shareReplay, catchError, of, finalize, throwError } from 'rxjs';
 import { AuthService } from '@auth/auth.service';
-import { MatDialog } from '@angular/material/dialog';
+import { TokenService } from 'src/app/services/token.service';
+import { environment } from '@envs/environment';
+import { Clipboard } from '@angular/cdk/clipboard';
+import { SnackbarService } from '../../shared/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-groups-view',
@@ -23,26 +26,28 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrl: './groups-view.component.css'
 })
 export class GroupsViewComponent implements OnInit, OnDestroy {
+  error!: string;
   groupID!: string;
   groupInfo!: Group;
-  members!: { uid: string, username: string }[];
   groupList!: List[];
   loadReady: boolean = false;
-  reloadTable = false;
-  nIntervId: any
   me: string
-  error!: string;
+  members!: { uid: string, username: string }[];
+  nIntervId: any
+  reloadTable = false;
 
   private destroy$ = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    private groupsService: GroupsService,
-    private loaderService: LoaderService,
-    private userService: UserService,
-    private listService: ListService,
     private auth: AuthService,
-    readonly dialog: MatDialog,
+    private groupsService: GroupsService,
+    private listService: ListService,
+    private loaderService: LoaderService,
+    private route: ActivatedRoute,
+    private token: TokenService,
+    private userService: UserService,
+    private clipboard: Clipboard,
+    private snackbar: SnackbarService,
   ) {
     this.loaderService.ShowLoader();
     this.route.url.pipe().subscribe(segments => {
@@ -110,6 +115,11 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
   }
 
   createInvitationLink() {
-    console.log('copiar link')
+    const payload = { groupId: this.groupID, invitedBy: this.me, invitationDate: new Date() };
+    const token = this.token.generarToken(payload);
+    const url = `${environment.url}/addMember/${token}`
+
+    this.clipboard.copy(url);
+    this.snackbar.showSnackBar('El Link de invitación se te ha copiado en el porta papeles', 'succes');
   }
 }

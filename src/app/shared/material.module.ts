@@ -14,6 +14,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSortModule } from '@angular/material/sort';
 import { MatRippleModule } from '@angular/material/core';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 export const MATERIAL_MODULES = [
   MatButtonModule,
@@ -32,4 +33,5 @@ export const MATERIAL_MODULES = [
   MatSortModule,
   MatRippleModule,
   MatTabsModule,
+  ClipboardModule
 ]
