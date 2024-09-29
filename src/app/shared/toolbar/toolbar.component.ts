@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '@auth/auth.service';
 import { MATERIAL_MODULES } from '@shared/material.module';
 
 @Component({
   selector: 'app-toolbar',
   standalone: true,
-  imports: [MATERIAL_MODULES],
+  imports: [MATERIAL_MODULES, RouterLink],
   template: `
     <mat-toolbar>
-      <span>Wish list</span>
+      <span [routerLink]="'/'" style="cursor: pointer;">Wish list</span>
       <span class="spacer"></span>
       <button mat-icon-button aria-label="Cerrar sesión"  matTooltip="Cerrar sesión" (click)="logOut()">
         <mat-icon>logout</mat-icon>

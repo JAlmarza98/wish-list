@@ -19,7 +19,9 @@ export class ListService {
 
   getMyList(): Observable<List[]> {
     const uid = this.auth.UserData.uid;
-    return collectionData(query(this.listCollection, where('uid', '==', uid)), ) as Observable<List[]>;
+    return collectionData(query(this.listCollection, where('uid', '==', uid)), {
+      idField: 'id',
+    }) as Observable<List[]>;
   }
 
   createList() {
