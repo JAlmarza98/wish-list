@@ -13,7 +13,7 @@ import { List } from '@components/list/list.component';
 import { TableComponent } from '@shared/table/table.component';
 import { takeUntil, switchMap, Subject, shareReplay, catchError, of, finalize, throwError } from 'rxjs';
 import { AuthService } from '@auth/auth.service';
-import { TokenService } from 'src/app/services/token.service';
+import { TokenData, TokenService } from 'src/app/services/token.service';
 import { environment } from '@envs/environment';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SnackbarService } from '../../shared/snackbar/snackbar.service';
@@ -61,6 +61,8 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
     this.groupsService.getGroupInfo(this.groupID).pipe(
       takeUntil(this.destroy$),
       switchMap(groupInfo => {
+
+      console.log("🚀 ~ GroupsViewComponent ~ ngOnInit ~ groupInfo:", groupInfo)
         if (!groupInfo || !groupInfo[0] || !groupInfo[0].members.includes(this.me)) {
           return throwError(() => new Error('No eres miembro de este grupo.'));
         }
@@ -115,7 +117,7 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
   }
 
   createInvitationLink() {
-    const payload = { groupId: this.groupID, invitedBy: this.me, invitationDate: new Date() };
+    const payload: TokenData = { groupId: this.groupID, invitedBy: this.me, invitationDate: new Date() };
     const token = this.token.generarToken(payload);
     const url = `${environment.url}/addMember/${token}`
 

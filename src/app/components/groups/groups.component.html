@@ -40,7 +40,7 @@
       </div>
       <div class="groups-container">
         @for (item of groupsList; track item.id) {
-          <mat-card matRipple [routerLink]="'/group/'+ item.id">
+          <mat-card matRipple [routerLink]="'/group/'+ item.uid">
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>{{ item.members.length}} miembros</mat-card-subtitle>
           </mat-card>

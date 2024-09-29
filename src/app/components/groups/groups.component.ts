@@ -15,7 +15,8 @@ export interface AddUserNameForm {
   userName: FormControl<string>;
 }
 export interface Group {
-  id: string,
+  id?: string,
+  uid: string,
   date: Date,
   members: string[],
   name: String
@@ -88,7 +89,7 @@ export class GroupsComponent {
         this._loader.ShowLoader();
 
         const newGroup: Group = {
-          id: uuidv4(),
+          uid: uuidv4(),
           date: new Date().toLocaleDateString('es-ES', { year: "numeric", month: "short", day: "numeric" }),
           members: [this.auth.UserData.uid],
           ...result
