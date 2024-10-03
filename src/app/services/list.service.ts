@@ -40,7 +40,17 @@ export class ListService {
     return updateDoc(serviceDocumentReference, { list: list });
   }
 
+  reserveElement(listId: string, modifiedList: Wish[]){
+    const serviceDocumentReference = doc(
+      this.firestore,
+      `user-lists/${listId}`
+    );
+    return updateDoc(serviceDocumentReference, { list: modifiedList });
+  }
+
   getGroupList(members: string[]) {
-    return collectionData(query(this.listCollection, where('uid', 'in', members)), ) as Observable<List[]>;
+    return collectionData(query(this.listCollection, where('uid', 'in', members)), {
+      idField: 'id',
+    }) as Observable<List[]>;
   }
 }

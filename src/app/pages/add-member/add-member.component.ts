@@ -19,6 +19,8 @@ export class AddMemberComponent implements OnInit {
   token!: string;
   payloadData!: TokenData | null;
   groupInfo!: Group;
+  me: string;
+  errorMsg!: string;
 
   private destroy$ = new Subject<void>();
 
@@ -34,6 +36,7 @@ export class AddMemberComponent implements OnInit {
       const segmentList = segments.map(x => x.toString());
       this.token = segmentList[1];
     });
+    this.me = this.auth.UserData.uid;
   }
 
   ngOnInit(): void {
@@ -48,7 +51,12 @@ export class AddMemberComponent implements OnInit {
         take(1),
         switchMap(groupInfo => {
           if (groupInfo && !groupInfo[0].members.includes(this.payloadData?.invitedBy as string)) {
-            return throwError(() => new Error('No eres miembro de este grupo.'));
+            this.errorMsg = 'Quien te invito ya no es miembro de este grupo.';
+            return throwError(() => new Error(this.errorMsg));
+          }
+          if (groupInfo && groupInfo[0].members.includes(this.me)) {
+            this.errorMsg = 'Ya eres miembro de este grupo.';
+            return throwError(() => new Error(this.errorMsg));
           }
           return groupInfo
         }),
@@ -59,7 +67,7 @@ export class AddMemberComponent implements OnInit {
         shareReplay(1)
       ).subscribe(groupInfo => {
         if (groupInfo === null) {
-          this.snackbarService.showSnackBar('Parace que la url de invitación no es valida', 'error')
+          this.snackbarService.showSnackBar(this.errorMsg, 'error')
           this.router.navigate(['/']);
         } else {
           this.groupsService.addToGroup(this.auth.UserData.uid, groupInfo).then(action => {

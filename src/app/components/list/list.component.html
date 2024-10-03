@@ -11,7 +11,7 @@
     <div class="table">
       @if(wishListExist){
         @if(reloadTable){
-          <app-table [data]="wishList" (tableActionEvent)="tableAction($event)"></app-table>
+          <app-table [data]="wishList" [isGroup]='false' (tableActionEvent)="tableAction($event)"></app-table>
         }
       } @else {
         <div class="no-list-container">

@@ -8,7 +8,7 @@ import { Wish } from '@components/list/list.component';
 
 export interface TableAction {
   row: Wish,
-  action: 'update' | 'delete'
+  action: 'update' | 'delete' | 'reserve' | 'remove'
 }
 
 @Component({
@@ -17,21 +17,28 @@ export interface TableAction {
   imports: [MATERIAL_MODULES],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css',
-  providers: [{provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl}],
+  providers: [{ provide: MatPaginatorIntl, useClass: MyCustomPaginatorIntl }],
 })
 export class TableComponent implements AfterViewInit, OnInit {
-  @Input() data: any;
+  @Input() data!: Wish[];
+  @Input() isGroup!: boolean;
   @Input() columnStructure: any;
 
   tableActionEvent = output<TableAction>()
 
-  displayedColumns: string[] = ['title', 'description', 'date', 'star'];
+  displayedColumns!: string[];
   dataSource!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+    if (this.isGroup) {
+      this.displayedColumns = ['title', 'description', 'date', 'reserved', 'star'];
+    } else {
+      this.displayedColumns = ['title', 'description', 'date', 'star'];
+    }
+
     this.dataSource = new MatTableDataSource(this.data);
   }
 
@@ -48,7 +55,7 @@ export class TableComponent implements AfterViewInit, OnInit {
     }
   }
 
-  tableAction(row: Wish, action:'update' | 'delete') {
-    this.tableActionEvent.emit(({row, action}));
+  tableAction(row: Wish, action: 'update' | 'delete' | 'reserve' | 'remove') {
+    this.tableActionEvent.emit(({ row, action }));
   }
 }

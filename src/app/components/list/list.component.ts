@@ -14,6 +14,7 @@ export interface Wish {
   url: string;
   date: Date;
   id: string;
+  reserved?: Reserved
 }
 
 export interface List {
@@ -21,6 +22,11 @@ export interface List {
   user?: string
   id: string;
   list: Wish[];
+}
+
+export interface Reserved {
+  reservedBy: string,
+  date: Date
 }
 
 @Component({

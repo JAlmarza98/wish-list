@@ -9,9 +9,9 @@ import { GroupsService } from 'src/app/services/groups.service';
 import { LoaderService } from '@shared/loader/loader.service';
 import { UserService } from 'src/app/services/user.service';
 import { ListService } from 'src/app/services/list.service';
-import { List } from '@components/list/list.component';
-import { TableComponent } from '@shared/table/table.component';
-import { takeUntil, switchMap, Subject, shareReplay, catchError, of, finalize, throwError } from 'rxjs';
+import { List, Wish } from '@components/list/list.component';
+import { TableAction, TableComponent } from '@shared/table/table.component';
+import { takeUntil, switchMap, Subject, shareReplay, catchError, of, finalize, throwError, map } from 'rxjs';
 import { AuthService } from '@auth/auth.service';
 import { TokenData, TokenService } from 'src/app/services/token.service';
 import { environment } from '@envs/environment';
@@ -35,6 +35,7 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
   members!: { uid: string, username: string }[];
   nIntervId: any
   reloadTable = false;
+  isTableVisible: boolean;
 
   private destroy$ = new Subject<void>();
 
@@ -55,14 +56,13 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
       this.groupID = segmentList[1];
     });
     this.me = this.auth.UserData.uid;
+    this.isTableVisible = false;
   }
 
   ngOnInit(): void {
     this.groupsService.getGroupInfo(this.groupID).pipe(
       takeUntil(this.destroy$),
       switchMap(groupInfo => {
-
-      console.log("🚀 ~ GroupsViewComponent ~ ngOnInit ~ groupInfo:", groupInfo)
         if (!groupInfo || !groupInfo[0] || !groupInfo[0].members.includes(this.me)) {
           return throwError(() => new Error('No eres miembro de este grupo.'));
         }
@@ -94,6 +94,7 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
           this.nIntervId = setTimeout(() => {
             this.loadReady = true;
             this.reloadTable = true;
+            this.isTableVisible = true;
             this.loaderService.HideLoader();
           }, 1000);
         }
@@ -123,5 +124,73 @@ export class GroupsViewComponent implements OnInit, OnDestroy {
 
     this.clipboard.copy(url);
     this.snackbar.showSnackBar('El Link de invitación se te ha copiado en el porta papeles', 'succes');
+  }
+
+  tableAction(event: TableAction) {
+    switch (event.action) {
+      case 'reserve':
+        const list = this.findObjectInList(event.row, this.groupList);
+        if (list) {
+          this.isTableVisible = false;
+          this.loaderService.ShowLoader();
+          const listItems = list.list;
+          const aux = listItems.find(item => item.id === event.row.id);
+          const reserved = {
+            reserved: {
+              reservedBy: this.members.find(member => member.uid === this.me)?.username,
+              date: new Date()
+            }
+          }
+          const reservedItem = Object.assign(aux as Wish, reserved)
+          listItems.map((item) =>
+            item.id === reservedItem.id ? reservedItem : item
+          );
+          this.listService.reserveElement(list?.id, listItems).then(action => {
+            this.snackbar.showSnackBar('Elemento reservado', 'succes');
+          }).catch((err) => {
+            console.log(err);
+            this.snackbar.showSnackBar('Error al reservar elemento', 'error');
+          }).finally(() => {
+            this.isTableVisible = true;
+            this.loaderService.HideLoader();
+          });
+        }
+        break;
+
+      case 'remove':
+        const listRm = this.findObjectInList(event.row, this.groupList);
+        if (listRm) {
+          this.isTableVisible = false;
+          this.loaderService.ShowLoader();
+          const listItems = listRm.list;
+          const aux = listItems.find(item => item.id === event.row.id);
+          delete (aux as Wish).reserved;
+          listItems.map((item) =>
+            item.id === (aux as Wish).id ? (aux as Wish) : item
+          );
+          this.listService.reserveElement(listRm?.id, listItems).then(action => {
+            this.snackbar.showSnackBar('Elemento dejado de reservar', 'succes');
+          }).catch((err) => {
+            console.log(err);
+            this.snackbar.showSnackBar('Error al dejar de reservar', 'error');
+          }).finally(() => {
+            this.isTableVisible = true;
+            this.loaderService.HideLoader();
+          });
+        }
+        break;
+    }
+  }
+
+
+  findObjectInList(obj: Wish, list: List[]): List | null {
+    for (const element of list) {
+      for (const item of element.list) {
+        if (item.id === obj.id) {
+          return element;
+        }
+      }
+    }
+    return null;
   }
 }
