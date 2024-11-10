@@ -18,7 +18,11 @@
           test
           data-label="Regalo"
         >
+          @if (element.url === undefined || element.url === null || element.url ==='') {
+          {{ element.title }}
+          }@else {
           <a [href]="element.url">{{ element.title }}</a>
+          }
         </td>
       </ng-container>
 
@@ -55,12 +59,9 @@
           class="has_label_on_mobile"
           data-label="Reservado por"
         >
-        @if (element.reserved) {
+          @if (element.reserved) {
           {{ element.reserved.reservedBy }}
-        }
-        @else {
-          -
-        }
+          } @else { - }
         </td>
       </ng-container>
       }
@@ -89,18 +90,18 @@
           </button>
 
           <mat-menu #menu="matMenu">
-           @if (element.reserved === undefined || (element.reserved && element.reserved.reservedBy === undefined)) {
-             <button mat-menu-item (click)="tableAction(element, 'reserve')">
-               <mat-icon style="color: #44474e">add_shopping_cart</mat-icon>
-               <span>Reservar</span>
-             </button>
-           }
-           @else {
-             <button mat-menu-item (click)="tableAction(element, 'remove')">
-               <mat-icon style="color: #44474e">remove_shopping_cart</mat-icon>
-               <span>Dejar de reservar</span>
-             </button>
-           }
+            @if (element.reserved === undefined || (element.reserved &&
+            element.reserved.reservedBy === undefined)) {
+            <button mat-menu-item (click)="tableAction(element, 'reserve')">
+              <mat-icon style="color: #44474e">add_shopping_cart</mat-icon>
+              <span>Reservar</span>
+            </button>
+            } @else {
+            <button mat-menu-item (click)="tableAction(element, 'remove')">
+              <mat-icon style="color: #44474e">remove_shopping_cart</mat-icon>
+              <span>Dejar de reservar</span>
+            </button>
+            }
           </mat-menu>
           }
         </td>
